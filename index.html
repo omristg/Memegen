@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Memegen</title>
+</head>
+
+<body onload="onInit()">
+
+
+    <header>
+        <h1>MemeGenerator</h1>
+    </header>
+
+    <section class="editor">
+
+        <main class="flex">
+
+            <div class="canvas-container">
+                <canvas id="canvas" width="100px" height="100px"></canvas>
+            </div>
+
+            <section class="edits-container">
+                <form action="" class="edit-optns">
+
+
+                    <input type="text" oninput="onText1Change(value)" placeholder="Type something" class="text1-input">
+                    <img src="./icons/increase-font-icon.png" onclick="onChangeFontSize(true)" class="btns-edit"
+                        alt="">
+                    <img src="./icons/decrease-font-icon.png" onclick="onChangeFontSize(false)" class="btns-edit"
+                        alt="">
+                    <label><img src="./icons/paint-board-and-brush.png" class="btns-edit" alt=""><input
+                            onchange="onColorSelect(value)" class="input-color" type="color"></label>
+
+                </form>
+
+            </section>
+
+        </main>
+
+    </section>
+
+    <section class="gallery">
+        <main class="imgs-container"></main>
+    </section>
+
+
+
+
+    <script src="./js/services/utils.service.js"></script>
+    <script src="./js/services/meme.service.js"></script>
+    <script src="./js/meme.controller.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    background-color: antiquewhite;
+}
+
+/* BASICS */
+
+button {
+    cursor: pointer;
+}
+
+/* EdITOR */
+
+.editor {
+    width: 100vw;
+    max-height: 100vh;
+    padding: 0;
+    margin: auto;
+    display: none;
+}
+
+.editor main {
+    width: 90%;
+    max-height: 80%;
+    border: 1px solid black;
+    margin: auto;
+}
+
+.editor header {
+    max-height: 20%;
+}
+
+.canvas-container {
+    width: 50%;
+    /* max-height: 100%; */
+    /* border: 1px solid black; */
+}
+
+.edits-container {
+    width: 50%;
+    margin: auto;
+}
+
+.btns-edit {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    background-color: white;
+}
+
+.input-color{
+    display: none;
+}
+
+
+
+
+/* GALLERY */
+
+.gallery {
+    width: 100vw;
+    max-height: 100vh;
+    padding: 0;
+    margin: auto;
+    display: block;
+    /* position: relative;
+    left:100%;
+    transition: left .6s; */
+}
+
+.imgs-container {
+    width: 90%;
+    max-height: 80%;
+    border: 1px solid black;
+    margin: auto;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill,200px);
+   
+}
+
+.imgs-container img {
+    max-width:200px ;
+}
+
+
+
+/* HELPERS */
+
+
+
+.item-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* flex helpers */
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+/* list helpers */
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
