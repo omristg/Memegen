@@ -28,13 +28,15 @@
                 <form action="" class="edit-optns">
 
 
-                    <input type="text" oninput="onText1Change(value)" placeholder="Type something" class="text1-input">
-                    <img src="./icons/increase-font-icon.png" onclick="onChangeFontSize(true)" class="btns-edit"
-                        alt="">
+                    <input type="text" oninput="onTextChange(value)" placeholder="Type something" class="text1-input">
+                    <img src="./icons/increase-font-icon.png" onclick="onChangeFontSize(true)" class="btns-edit" alt="">
                     <img src="./icons/decrease-font-icon.png" onclick="onChangeFontSize(false)" class="btns-edit"
                         alt="">
-                    <label><img src="./icons/paint-board-and-brush.png" class="btns-edit" alt=""><input
-                            onchange="onColorSelect(value)" class="input-color" type="color"></label>
+                    <label>
+                        <img src="./icons/paint-board-and-brush.png" class="btns-edit" alt=""><input onchange="onColorSelect(value)" class="input-color" type="color"></input>
+                    </label>
+                    <img src="./icons/add.png" onclick="onAddLine()" class="btns-edit" alt="">
+                    <img src="./icons/swap-lines.png" onclick="onSwapLines()" class="btns-edit" alt="">
 
                 </form>
 

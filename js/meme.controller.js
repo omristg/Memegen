@@ -8,7 +8,8 @@ function onInit() {
     gElCanvas = document.getElementById('canvas')
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
-    addListeners()
+    addListeners();
+
 }
 
 
@@ -27,7 +28,13 @@ function renderMeme() {
     renderText(meme)
 }
 
-function onText1Change(value) {
+function onSwapLines() {
+    swapLines()
+    renderMeme();
+}
+
+
+function onTextChange(value) {
     setText1(value)
     renderMeme()
 }
@@ -38,26 +45,69 @@ function onChangeFontSize(value) {
 }
 
 function onColorSelect(value) {
+    console.log('hi');
     setTextColor(value)
     renderMeme()
 }
 
-function renderText(meme) {
-    const line1 = meme.lines[0]
-    const txt1 = line1.txt
-    gCtx.font = `400 ${line1.size}px Impact `;
-    gCtx.textAlign = line1.align
-    gCtx.fillStyle = line1.color
-    gCtx.strokeStyle = 'black';
-    gCtx.lineWidth = 1.5;
-    gCtx.textBaseline = 'middle';
-
-    gCtx.fillText(txt1, gElCanvas.width / 2, gElCanvas.height / 6);
-    gCtx.strokeText(txt1, gElCanvas.width / 2, gElCanvas.height / 6);
+function onAddLine() {
+    addLine();
+    renderMeme();
 }
 
 
+function renderText(meme) {
+    // TODO: change the lineSpace system
+    let lineSpace = 1
+    const lines = meme.lines
+    lines.forEach(line => {
+        gCtx.font = `400 ${line.size}px Impact `;
+        gCtx.textAlign = line.align
+        gCtx.fillStyle = line.color
+        gCtx.strokeStyle = 'black';
+        gCtx.lineWidth = 1.5;
+        gCtx.textBaseline = 'middle';
+
+        const width = gElCanvas.width / 2;
+        const height = gElCanvas.height / (6 + lineSpace);
+        const textMetrics = gCtx.measureText(line.txt)
+        console.log(textMetrics);
+
+        gCtx.fillText(line.txt, width, height);
+        gCtx.strokeText(line.txt, width, height);
+        // drawFocusRect(textMetrics)
+
+        lineSpace -= 5.5
+    })
+}
+
+
+
+function drawFocusRect(textMetrics, width, height) {
+    const { selectedLineIdx } = getMeme()
+    console.log(selectedLineIdx);
+
+    // const left = metrics.actualBoundingBoxLeft * -1;
+    // const top = metrics.actualBoundingBoxAscent * -1;
+    // const right = metrics.actualBoundingBoxRight;
+    // const bottom = metrics.actualBoundingBoxDescent;
+    
+    gCtx.beginPath();
+    gCtx.rect(
+        100,
+        50,
+        textMetrics.width,
+        textMetrics.fontBoundingBoxAscent
+    );
+    gCtx.stroke();
+}
+
+function showCoords(ev) {
+    console.log(ev);
+}
+
 function addListeners() {
+    gElCanvas.addEventListener('mouseup', showCoords);
     window.addEventListener('resize', () => { renderMeme() })
 }
 
@@ -65,7 +115,7 @@ function addListeners() {
 
 function renderCanvas() {
     const elCanvasContainer = document.querySelector('.canvas-container');
-    // Change later, this is only sqare imgs
+    // Change later, this is only square imgs
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = elCanvasContainer.offsetWidth
     gElCanvas.style.backgroundColor = 'white'
@@ -98,7 +148,6 @@ function toggleGallery(action) {
 
 function renderGallery() {
     const imgs = getImgs()
-    console.log(imgs);
     let strHTMLs = [];
     imgs.map(img => {
         strHTMLs.push(

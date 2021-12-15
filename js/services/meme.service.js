@@ -107,27 +107,49 @@ let gMeme = {
             size: 40,
             align: 'center',
             color: 'white',
-        },
-        {
-            txt: 'type another',
-            size: 30,
-            align: 'left',
-            color: 'blue',
         }
     ]
 }
 
+
+function addLine() {
+// TODO: Delete later, just helping with unseen texts
+    if (gMeme.lines.length === 2) return
+    
+    gMeme.lines.push(
+        {
+            txt: '',
+            size: 40,
+            align: 'center',
+            color: 'white'
+        }
+    )
+    gMeme.selectedLineIdx++
+}
+
+function swapLines() {
+    if (gMeme.lines.length === 1) return
+    gMeme.selectedLineIdx++;
+    if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
+    console.log( gMeme.selectedLineIdx);
+}
+
 function setFontSize(value) {
-    const prevSize = gMeme.lines[0].size
-    gMeme.lines[0].size = (value) ? prevSize + 5 : prevSize - 5;
+    const currLine = gMeme.selectedLineIdx
+    console.log(currLine);
+    const prevSize = gMeme.lines[currLine].size
+    gMeme.lines[currLine].size = (value) ? prevSize + 5 : prevSize - 5;
 }
 
 function setTextColor(value) {
-    gMeme.lines[0].color = `${value}`;
+    const currLine = gMeme.selectedLineIdx
+    gMeme.lines[currLine].color = `${value}`;
+
 }
 
 function setText1(value) {
-    gMeme.lines[0].txt = value
+    const currLine = gMeme.selectedLineIdx
+    gMeme.lines[currLine].txt = value
 }
 
 function setImg(imgId) {
