@@ -197,3 +197,7 @@ function renderGallery() {
     document.querySelector('.imgs-container').innerHTML = strHTMLs.join('');
 }
 
+function onToggleNavModal() {
+    document.body.classList.toggle('menu-open');
+   
+}

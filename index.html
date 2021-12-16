@@ -11,6 +11,8 @@
 
 <body onload="onInit()">
 
+    <div class="darken-screen" onclick="onToggleNavModal()"></div>
+    
     <div class="header-backround">
         <header class="main-header main-layout flex align-center space-between">
             <img src="./img/logo.png" alt="" class="logo">
@@ -19,9 +21,10 @@
                     <li class="hamburger-logo"><img src="./img/logo.png" alt=""></li>
                     <li><a href="#" onclick="onReturnToGallery()">Gallery</a></li>
                     <li><a href="#about" onclick="onReturnToGallery()">About</a></li>
-                    <span class="btn-exit" onclick="onToggleNavModal(false)">X</span>
+                    <span class="btn-exit" onclick="onToggleNavModal()">X</span>
                 </ul>
             </nav>
+            <button class="btn-hamburger" onclick="onToggleNavModal()">☰</button>
         </header>
     </div>
 
