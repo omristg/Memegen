@@ -29,6 +29,23 @@
         <div class="gallery-background">
             <main class="imgs-container main-layout"></main>
         </div>
+
+        <section class="about main-layout">
+            <img src="./img/fake-pic.png" class="main-img" alt="">
+            <section class="about-info flex-col">
+                <h2>Monica Geller</h2>
+                <p>is a fictional character, one of the six main characters who appears on the American sitcom Friends
+                    (1994–2004). Created by David Crane and Marta Kauffman</p>
+                <ul class="social-nav clean-list flex">
+                    <li><a class="fa facebook" href="#"></a></li>
+                    <li><a class="fa linkedin" href="#"></a></li>
+                    <li><a class="fa github" href="#"></a></li>
+                </ul>
+
+            </section>
+        </section>
+
+
     </section>
 
 
@@ -36,7 +53,7 @@
 
     <section class="editor">
 
-        <main class="flex">
+        <main class="flex main-layout">
 
             <div class="canvas-container">
                 <canvas id="canvas" width="100px" height="100px"></canvas>
@@ -47,15 +64,35 @@
 
                     <input type="text" oninput="onTextChange(value)" placeholder="Type something"
                         onblur="onUpdatePlaceholder(this)" class="text-input">
-                    <img src="./icons/increase-font-icon.png" onclick="onChangeFontSize(true)" class="btns-edit" alt="">
-                    <img src="./icons/decrease-font-icon.png" onclick="onChangeFontSize(false)" class="btns-edit"
-                        alt="">
-                    <label>
-                        <img src="./icons/paint-board-and-brush.png" class="btns-edit" alt=""><input
-                            onchange="onColorSelect(value)" class="input-color" type="color"></input>
-                    </label>
-                    <img src="./icons/add.png" onclick="onAddLine()" class="btns-edit" alt="">
-                    <img src="./icons/swap-lines.png" onclick="onSwapLines()" class="btns-edit" alt="">
+
+                    <button class="btns-edit swap" onclick="onSwapLines(event)"> <img src="./icons/swap-lines.png"
+                            alt=""></button>
+                    <button class="btns-edit add" onclick="onAddLine(event)" alt=""><img src="./icons/add.png"></button>
+                    <button class="btns-edit delete" onclick="onDeleteLine(event)"><img src="./icons/trash.png"
+                            alt=""></button>
+                    <button onclick="onChangeFontSize(event, true)" class="btns-edit larger"> <img
+                            src="./icons/increase-font-icon.png" alt=""> </button>
+                    <button onclick="onChangeFontSize(event, false)" class="btns-edit smaller"> <img
+                            src="./icons/decrease-font-icon.png" alt=""> </button>
+                    <button class="btns-edit left" onclick="onAlign(event, 'left')"><img src="./icons/align-to-left.png"
+                            alt=""></button>
+                    <button class="btns-edit center" onclick="onAlign(event, 'center')"><img
+                            src="./icons/center-text-alignment.png" alt=""></button>
+                    <button class="btns-edit right" onclick="onAlign(event, 'right')"><img
+                            src="./icons/align-to-right.png" alt=""></button>
+
+                    <input class="font-select" type="text">
+                    <button class="btns-edit stroke " onclick="onStroke(event)"><img src="./icons/text stroke.png"
+                            alt=""></button>
+                    <!-- <button class="btns-edit color" onclick="onPseudoBtn(event)"> -->
+                        <label  class="btns-edit color">
+                            <input onchange="onColorSelect(value)"
+                                class="input-color" type="color"><img src="./icons/paint-board-and-brush.png" alt=""></input>
+                        </label>
+                    <!-- </button> -->
+
+                    <!-- <input type="color" class="btns-edit color"> -->
+                    <button class="btn-share">Share</button>
 
                 </form>
 
@@ -65,20 +102,6 @@
 
     </section>
 
-    <section class="about main-layout">
-        <img src="./img/fake-pic.png" class="main-img" alt="">
-        <section class="about-info flex-col">
-            <h2>Monica Geller</h2>
-            <p>is a fictional character, one of the six main characters who appears on the American sitcom Friends
-                (1994–2004). Created by David Crane and Marta Kauffman</p>
-                <ul class="social-nav clean-list flex">
-                    <li><a class="fa facebook" href="#"></a></li>
-                    <li><a class="fa linkedin" href="#"></a></li>
-                    <li><a class="fa github" href="#"></a></li>
-                </ul>
-
-            </section>
-    </section>
 
     <footer class="main-footer flex justify-center align-center">
         <div class="footer-container flex-col align-center">

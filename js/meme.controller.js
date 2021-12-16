@@ -27,31 +27,54 @@ function renderMeme() {
     renderText(meme);
 }
 
-function onSwapLines() {
+function onSwapLines(ev) {
+    ev.preventDefault();
     swapLines()
     renderMeme();
 }
 
+function onAddLine(ev) {
+    ev.preventDefault();
+    addLine();
+    renderMeme();
+}
+
+function onDeleteLine(ev) {
+    ev.preventDefault();
+}
+
+function onChangeFontSize(ev, value) {
+    ev.preventDefault();
+    setFontSize(value);
+    renderMeme()
+}
+
+function onAlign(ev, value) {
+    ev.preventDefault();
+    console.log(value);
+}
 
 function onTextChange(value) {
     setText1(value)
     renderMeme()
 }
 
-function onChangeFontSize(value) {
-    setFontSize(value);
-    renderMeme()
+function onPseudoBtn(ev) {
+    ev.preventDefault();
+
 }
+
+function onStroke(ev) {
+    ev.preventDefault();
+}
+
 
 function onColorSelect(value) {
     setTextColor(value)
     renderMeme()
 }
 
-function onAddLine() {
-    addLine();
-    renderMeme();
-}
+
 
 
 function renderText(meme) {
