@@ -97,6 +97,12 @@ const gImgs = [
     },
 ]
 
+let gKeywordSearchCountMap = {
+    'funny': 12,
+    'cat': 16,
+    'baby': 2
+}
+
 let gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
@@ -111,6 +117,9 @@ let gMeme = {
     ]
 }
 
+function getKeywordMap() {
+    return gKeywordSearchCountMap
+}
 
 function addLine() {
 // TODO: Delete later, just helping with unseen texts

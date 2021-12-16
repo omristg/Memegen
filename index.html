@@ -16,8 +16,10 @@
             <img src="./img/logo.png" alt="" class="logo">
             <nav class="main-nav">
                 <ul class="clean-list flex">
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">About</a></li>
+                    <li class="hamburger-logo"><img src="./img/logo.png" alt=""></li>
+                    <li><a href="#" onclick="onReturnToGallery()">Gallery</a></li>
+                    <li><a href="#about" onclick="onReturnToGallery()">About</a></li>
+                    <span class="btn-exit" onclick="onToggleNavModal(false)">X</span>
                 </ul>
             </nav>
         </header>
@@ -30,7 +32,7 @@
             <main class="imgs-container main-layout"></main>
         </div>
 
-        <section class="about main-layout">
+        <section id="about" class="about main-layout">
             <img src="./img/fake-pic.png" class="main-img" alt="">
             <section class="about-info flex-col">
                 <h2>Monica Geller</h2>
@@ -81,17 +83,22 @@
                     <button class="btns-edit right" onclick="onAlign(event, 'right')"><img
                             src="./icons/align-to-right.png" alt=""></button>
 
-                    <input class="font-select" type="text">
+                    <input class="font-select" list="fonts">
+                    <datalist id="fonts">
+                        <option value="Arial">Arial</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Verdena">Verdena</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </datalist>
                     <button class="btns-edit stroke " onclick="onStroke(event)"><img src="./icons/text stroke.png"
                             alt=""></button>
-                    <!-- <button class="btns-edit color" onclick="onPseudoBtn(event)"> -->
                         <label  class="btns-edit color">
                             <input onchange="onColorSelect(value)"
                                 class="input-color" type="color"><img src="./icons/paint-board-and-brush.png" alt=""></input>
                         </label>
-                    <!-- </button> -->
 
-                    <!-- <input type="color" class="btns-edit color"> -->
                     <button class="btn-share">Share</button>
 
                 </form>

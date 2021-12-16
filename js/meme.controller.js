@@ -9,9 +9,14 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
     addListeners();
-
 }
 
+// function renderKeywordCountMap() {
+//     const map = getKeywordMap()
+//     let strHTML = `${map.funny}`
+//     let elMap = document.querySelector('.keywords');
+//     elMap.innerHTML = strHTML;
+// }
 
 function renderMeme() {
     renderCanvas();
@@ -154,22 +159,27 @@ function onUpdatePlaceholder(el) {
 
 // // GALLERY 
 
+function onReturnToGallery() {
+    onToggleEditor(false)
+    onToggleGallery(true)
+}
+
 function onImageSelect(imgId) {
     setImg(imgId);
-    toggleGallery(false);
-    toggleEditor(true);
+    onToggleGallery(false);
+    onToggleEditor(true);
     renderMeme()
 
 }
 
-function toggleEditor(action) {
+function onToggleEditor(action) {
     const displayAction = (action) ? 'block' : 'none';
     document.querySelector('.editor').style.display = displayAction
     // const displayAction = (action) ? '0' : '100%';
     // document.querySelector('.editor').style.right = displayAction
 }
 
-function toggleGallery(action) {
+function onToggleGallery(action) {
     const displayAction = (action) ? 'block' : 'none';
     document.querySelector('.gallery').style.display = displayAction
     // const displayAction = (action) ? '0' : '100%';
