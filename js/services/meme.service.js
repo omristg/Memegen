@@ -114,7 +114,7 @@ let gMeme = {
 
 function addLine() {
 // TODO: Delete later, just helping with unseen texts
-    if (gMeme.lines.length === 2) return
+    if (gMeme.lines.length === 3) return
     
     gMeme.lines.push(
         {
@@ -131,7 +131,6 @@ function swapLines() {
     if (gMeme.lines.length === 1) return
     gMeme.selectedLineIdx++;
     if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
-    console.log( gMeme.selectedLineIdx);
 }
 
 function setFontSize(value) {

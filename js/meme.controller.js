@@ -21,11 +21,10 @@ function renderMeme() {
     // TODO: make it work with all sizes
     let img = new Image()
     img.src = getImgUrl(selectedImgId)
-    // console.log(img);
-    gCtx.drawImage(
-        img, 0, 0, gElCanvas.width, gElCanvas.width
-    )
-    renderText(meme)
+    // img.onload = () => {
+    // }
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.width)
+    renderText(meme);
 }
 
 function onSwapLines() {
@@ -45,7 +44,6 @@ function onChangeFontSize(value) {
 }
 
 function onColorSelect(value) {
-    console.log('hi');
     setTextColor(value)
     renderMeme()
 }
@@ -60,50 +58,51 @@ function renderText(meme) {
     // TODO: change the lineSpace system
     let lineSpace = 1
     const lines = meme.lines
-    lines.forEach(line => {
-        gCtx.font = `400 ${line.size}px Impact `;
+    lines.forEach((line, idx) => {
+        gCtx.font = `${line.size}px Impact `;
         gCtx.textAlign = line.align
         gCtx.fillStyle = line.color
         gCtx.strokeStyle = 'black';
-        gCtx.lineWidth = 1.5;
+        gCtx.lineWidth = line.size * 0.03
         gCtx.textBaseline = 'middle';
 
-        const width = gElCanvas.width / 2;
-        const height = gElCanvas.height / (6 + lineSpace);
+        const textPosX = gElCanvas.width / 2;
+        const textPosY = gElCanvas.height / 5 * lineSpace;
         const textMetrics = gCtx.measureText(line.txt)
-        console.log(textMetrics);
+        const textWidth = textMetrics.width
 
-        gCtx.fillText(line.txt, width, height);
-        gCtx.strokeText(line.txt, width, height);
-        // drawFocusRect(textMetrics)
+        gCtx.fillText(line.txt, textPosX, textPosY);
+        gCtx.strokeText(line.txt, textPosX, textPosY);
 
-        lineSpace -= 5.5
+        if (idx === meme.selectedLineIdx) {
+            drawFocusRect(line, textWidth, textPosX, textPosY)
+        }
+
+        lineSpace += 1.2
     })
 }
 
 
-
-function drawFocusRect(textMetrics, width, height) {
-    const { selectedLineIdx } = getMeme()
-    console.log(selectedLineIdx);
-
-    // const left = metrics.actualBoundingBoxLeft * -1;
-    // const top = metrics.actualBoundingBoxAscent * -1;
-    // const right = metrics.actualBoundingBoxRight;
-    // const bottom = metrics.actualBoundingBoxDescent;
-    
+function drawFocusRect(line, textWidth, textPosX, textPosY) {
+    const textHeight = line.size
     gCtx.beginPath();
     gCtx.rect(
-        100,
-        50,
-        textMetrics.width,
-        textMetrics.fontBoundingBoxAscent
+        textPosX - (textWidth / 2) - 10,
+        textPosY - (textHeight / 2) - 10,
+        textWidth + 20,
+        textHeight + 20
+    );
+    gCtx.fillStyle = '#c3c3c350'
+    gCtx.fillRect(
+        textPosX - (textWidth / 2) - 10,
+        textPosY - (textHeight / 2) - 10,
+        textWidth + 20,
+        textHeight + 20
     );
     gCtx.stroke();
 }
 
 function showCoords(ev) {
-    console.log(ev);
 }
 
 function addListeners() {
@@ -119,6 +118,14 @@ function renderCanvas() {
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = elCanvasContainer.offsetWidth
     gElCanvas.style.backgroundColor = 'white'
+}
+
+
+// CHANGE THIS!!
+function onUpdatePlaceholder(el) {
+    console.log(el);
+    el.placeholder = '1235'
+
 }
 
 
