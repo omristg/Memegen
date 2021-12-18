@@ -80,14 +80,51 @@ body.menu-open .darken-screen {
 }
 
 
+/* SAVED */
+
+
+.saved-memes {
+    display: none;
+    background-color: white;
+
+}
+
+.saved-memes .memes-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px
+}
+
+.memes-container h2 {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.saved-memes .memes-container>*:not(h2) {
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.saved-memes .memes-container>*:not(h2):hover {
+    box-shadow: -8px 0px 16px black;
+    transform: scale(1.05);
+}
+
+.memes-container img {
+    width: 100%;
+}
 
 /* MODALS */
 
 .share-modal {
     position: fixed;
     z-index: 10;
-    width: 190px;
-    height: 200px;
+    width: 250px;
+    height: 300px;
     background-color: white;
     border-radius: 10px;
     opacity: 0;
@@ -104,7 +141,7 @@ body.menu-open .darken-screen {
     position: absolute;
     z-index: 10;
     top: 10px;
-    right: 10px;
+    right: 20px;
     font-family: inherit;
     color: #ff7f00;
     font-size: 1.5rem;
@@ -129,6 +166,7 @@ body.menu-open .darken-screen {
     background-color: #ff7f00;
     min-width: 130px;
     margin: auto;
+    margin-bottom: 15px;
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-radius: 15px;
@@ -136,10 +174,6 @@ body.menu-open .darken-screen {
     font-size: 1.2rem;
     color: white;
     transition: background-color 0.3s;
-}
-
-.share-modal button:first-child {
-    margin-bottom: 0.5rem;
 }
 
 .share-modal button:hover {
@@ -181,10 +215,38 @@ body.menu-open .darken-screen {
     display: block;
 }
 
+.gallery .search-and-keys {
+    height: 4rem;
+    justify-content: center;
+}
 
+.gallery .search-bar {
+    margin: auto;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    transform: translate(-120%, 20%);
+    width: 20px;
+    cursor: pointer;
+}
+
+.search-bar input {
+    border: none;
+    border-bottom: 2px solid #040a2c;
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 0.2rem 0.2rem;
+}
+
+.search-bar input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
 .gallery .keywords {
-    height: 6.25rem;
+    display: none;
 }
 
 .gallery .gallery-background {
@@ -247,7 +309,7 @@ body.menu-open .darken-screen {
     grid-auto-rows: auto;
     grid-template-areas:
         "input input input input input"
-        "  .     swap  add   delete  ."
+        " swap  add   up    down  delete "
         "larger  smaller left center right"
         "font   font  font stroke  color"
         ". share share share . "
@@ -261,12 +323,12 @@ body.menu-open .darken-screen {
     margin-bottom: 0.4rem;
 }
 
-.edits-container .edit-optns>*:not(select, input):hover {
+.edits-container .edit-optns>*:not(select, input, button:last-of-type):hover {
     background-color: #ff7f00;
     transition: background-color 0.25s;
 }
 
-.edits-container .edit-optns select{
+.edits-container .edit-optns select {
     cursor: pointer;
 }
 
@@ -286,6 +348,14 @@ body.menu-open .darken-screen {
 
 .edits-container .swap {
     grid-area: swap;
+}
+
+.edits-container .up {
+    grid-area: up;
+}
+
+.edits-container .down {
+    grid-area: down;
 }
 
 .edits-container .add {
@@ -327,6 +397,10 @@ body.menu-open .darken-screen {
 
 }
 
+.font-select option {
+    color: #040a2c;
+}
+
 .edits-container .stroke {
     grid-area: stroke;
 }
@@ -346,7 +420,7 @@ body.menu-open .darken-screen {
     padding-bottom: 0.5rem;
     background-color: #ff7f00;
     color: white;
-
+    transition: background-color 0.3s;
 }
 
 .edits-container .btn-share:hover {
@@ -379,7 +453,21 @@ body.menu-open .darken-screen {
     position: absolute;
 }
 
+.editor .popup {
+    position: fixed;
+    padding: 5px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #040a2c;
+    color: white;
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
 
+.editor .popup.shown {
+    opacity: 0.9;
+}
 
 /* ABOUT */
 
@@ -535,6 +623,7 @@ body.menu-open .darken-screen {
         border-radius: 5px;
         font-size: 1rem;
         font-weight: 550;
+        transition: background-color 0.3s, color 0.3s;
     }
 
     .main-header .btn-hamburger:hover {
@@ -595,25 +684,58 @@ body.menu-open .darken-screen {
         display: none;
     }
 
+    .main-nav li {
+        border-inline-end: 1px solid #040a2c;
+    }
+
     .main-nav li:last-of-type {
-        border-inline-start: 1px solid #040a2c;
+        border: none;
     }
 
     .imgs-container {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 
-    .share-modal {
-        width: 300px;
-        height: 180px;
+    .gallery .search-and-keys {
+        width: unset;
+        height: 6.25rem;
+        justify-content: flex-start;
     }
 
-    .share-modal .btns-container {
-        flex-direction: row;
+    .gallery .search-bar {
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-start;
+        align-items: center;
     }
 
-    .share-modal button:first-child {
-        margin-bottom: 0;
+    .search-bar .search-icon {
+        position: relative;
+        transform: translate(-120%, 0);
+    }
+
+    .search-bar input {
+        font-size: 1.2rem;
+    }
+
+
+    .gallery .keywords {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-grow: 8;
+        overflow: hidden;
+    }
+
+    .gallery .keywords>* {
+        color: #040a2c;
+        transition: color 0.2s;
+
+    }
+
+    .gallery .keywords>*:hover {
+        color: #ff7f00;
+        cursor: pointer;
     }
 
     .editor main {
@@ -637,7 +759,7 @@ body.menu-open .darken-screen {
 
         grid-template-areas:
             "input input input input input"
-            "  .     swap  add   delete  ."
+            " swap  add  up     down   delete "
             "larger  smaller left center right"
             "font   font  font stroke  color"
             ". . . share share"
@@ -666,9 +788,7 @@ body.menu-open .darken-screen {
         margin: 0 auto
     }
 
-    .imgs-container {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+
 
     .gallery .about {
         display: grid;
@@ -708,6 +828,7 @@ body.menu-open .darken-screen {
         padding-bottom: 0.7rem;
     }
 
+
     .edits-container .font-select {
         height: 3.75rem;
     }
@@ -717,10 +838,6 @@ body.menu-open .darken-screen {
 @media screen and (min-width: 1000px) {
     .main-layout {
         max-width: 920px;
-    }
-
-    .imgs-container {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 
     .gallery .about {
@@ -738,6 +855,6 @@ body.menu-open .darken-screen {
     }
 
     .imgs-container {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 }

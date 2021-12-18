@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" type="image/png" href="./icons/favicon.ico">
     <title>Memegen</title>
 </head>
 
@@ -19,8 +20,9 @@
             <nav class="main-nav">
                 <ul class="clean-list flex">
                     <li class="hamburger-logo"><img src="./img/logo.png" alt=""></li>
-                    <li><a href="#" onclick="onReturnToGallery()">Gallery</a></li>
-                    <li><a href="#about" onclick="onReturnToGallery()">About</a></li>
+                    <li><a href="#" onclick="onGoToGallery()">Gallery</a></li>
+                    <li><a href="#" onclick="onGoToSavedMemes()">Saved</a></li>
+                    <li><a href="#about" onclick="onGoToGallery()">About</a></li>
                     <span class="btn-exit" onclick="onToggleNavModal()">X</span>
                 </ul>
             </nav>
@@ -30,17 +32,25 @@
 
 
     <section class="gallery">
-        <section class="keywords main-layout"></section>
+        <section class="search-and-keys main-layout flex align-center">
+            <div class="search-bar">
+                <input list="search-keywords" placeholder="Enter search keyword" onchange="onFilterBy(value)">
+                <img class="search-icon" src="./icons/search-icon.png" alt="">
+            </div>
+            <datalist id="search-keywords"></datalist>
+            <div class="keywords"></div>
+
+        </section>
         <div class="gallery-background">
             <main class="imgs-container main-layout"></main>
         </div>
 
         <section id="about" class="about main-layout">
-            <img src="./img/fake-pic.png" class="main-img" alt="">
+            <img src="./img/My Pic.jpg" class="main-img" alt="">
             <section class="about-info flex-col">
-                <h2>Monica Geller</h2>
-                <p>is a fictional character, one of the six main characters who appears on the American sitcom Friends
-                    (1994–2004). Created by David Crane and Marta Kauffman</p>
+                <h2>Omri Steinberg</h2>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus quis, odio possimus earum
+                    dolore accusantium explic!</p>
                 <ul class="social-nav clean-list flex">
                     <li><a class="fa facebook" href="#"></a></li>
                     <li><a class="fa linkedin" href="#"></a></li>
@@ -54,12 +64,13 @@
     </section>
 
 
+    <section class="saved-memes flex main-layout">
+        <div class="memes-container"></div>
+    </section>
 
 
     <section class="editor">
-
         <div class="editor-darken-screen" onclick="onCloseShareModal()"></div>
-
         <main class="flex main-layout">
 
             <div class="canvas-container">
@@ -74,6 +85,7 @@
                         <button onclick="onShareFacebook()" class="share-facebook">Share</button>
                         <button class="download"> <a href="#" onclick="onDownload(this)"
                                 download="myphoto">Download</a></button>
+                        <button class="save" onclick="onSave()">Save</button>
 
                     </div>
                 </section>
@@ -86,6 +98,10 @@
                     <button class="btns-edit swap" onclick="onSwapLines(event)"> <img src="./icons/swap-lines.png"
                             alt=""></button>
                     <button class="btns-edit add" onclick="onAddLine(event)" alt=""><img src="./icons/add.png"></button>
+                    <button class="btns-edit up" onclick="onVerticalChange(event, 10)"><img src="./icons/up-arrow.png"
+                            alt=""></button>
+                    <button class="btns-edit down" onclick="onVerticalChange(event, -10)"><img
+                            src="./icons/down-arrow.png" alt=""></button>
                     <button class="btns-edit delete" onclick="onDeleteLine(event)"><img src="./icons/trash.png"
                             alt=""></button>
                     <button onclick="onChangeFontSize(event, true)" class="btns-edit larger"> <img
@@ -104,8 +120,8 @@
                         <option value="Arial">Arial</option>
                         <option value="Verdena">Verdena</option>
                         <option value="Tahoma">Tahoma</option>
-                        <option value=""></option>
-                        <option value=""></option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Courier New">Courier New</option>
                     </select>
 
                     <label class="stroke btns-edit color-labels"><input type="color" onchange="onStrokeColor(value)"
@@ -121,11 +137,9 @@
                     <button onclick="onOpenShareModal(event)" class="btn-share">Share</button>
 
                 </form>
-
+                <div class="popup">dsadsaasd</div>
             </section>
-
         </main>
-
     </section>
 
 
@@ -138,9 +152,14 @@
 
 
     <script src="./js/services/utils.service.js"></script>
+    <script src="./js/services/storage.service.js"></script>
     <script src="./js/services/upload.service.js"></script>
+    <script src="./js/services/saved.service.js"></script>
     <script src="./js/services/meme.service.js"></script>
-    <script src="./js/meme.controller.js"></script>
+    <script src="./js/services/saved.controller.js"></script>
+    <script src="./js/gallery.controller.js"></script>
+    <script src="./js/editor.controller.js"></script>
+    <script src="./js/main-controller.js"></script>
 </body>
 
 </html>

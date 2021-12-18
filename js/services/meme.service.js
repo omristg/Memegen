@@ -1,108 +1,102 @@
 'use strict'
 
 
-// TODO: use this 
-let gKeywordSearchCountMap = {
-    'funny': 12,
-    'cat': 16,
-    'baby': 2
-}
+let gKeywordSearchCountMap = null
+let gSavedMemes = [];
 
 const gImgs = [
     {
         id: 1,
         url: './img/1.jpg',
-        keywords: ['funny', 'Donald Trump', 'face']
+        keywords: ['funny', 'famous', 'people',]
 
     },
     {
         id: 2,
         url: './img/2.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['dog', 'love', 'happy', 'animals']
     },
     {
         id: 3,
         url: './img/3.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['baby', 'dog', 'cute', 'animals']
     },
     {
         id: 4,
         url: './img/4.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'cat', 'animals']
     },
     {
         id: 5,
         url: './img/5.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'baby', 'people']
     },
     {
         id: 6,
         url: './img/6.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'face', 'people']
     },
     {
         id: 7,
         url: './img/7.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'baby', 'people', 'face']
     },
     {
         id: 8,
         url: './img/8.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'face', 'people']
     },
     {
         id: 9,
         url: './img/9.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'baby', 'face', 'people']
     },
     {
         id: 10,
         url: './img/10.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['funny', 'face', 'famous', 'obama', 'people']
     },
     {
         id: 11,
         url: './img/11.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['people', 'two']
     },
     {
         id: 12,
         url: './img/12.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['face', 'famous', 'people']
     },
     {
         id: 13,
         url: './img/13.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['famous', 'face', 'people',]
     },
     {
         id: 14,
         url: './img/14.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['movies', 'face', 'serious', 'people']
     },
     {
         id: 15,
         url: './img/15.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['tv', 'face', 'people']
     },
     {
         id: 16,
         url: './img/16.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['tv', 'funny', 'face', 'people']
     },
     {
         id: 17,
         url: './img/17.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['famous', 'russia', 'people']
     },
     {
         id: 18,
         url: './img/18.jpg',
-        keywords: ['funny', 'cat']
+        keywords: ['two', 'movies', 'fictional']
     },
 ]
-
-
 
 let gMeme = {
     selectedImgId: 1,
@@ -114,22 +108,73 @@ let gMeme = {
             size: 40,
             align: 'center',
             color: 'white',
-            font: 'impact'
+            font: 'impact',
+            stroke: 'black',
+            vertical: 0,
         }
     ]
 }
 
+function foramtMeme() {
+    gMeme = {
+        selectedImgId: 1,
+        selectedLineIdx: 0,
+
+        lines: [
+            {
+                txt: 'Type something',
+                size: 40,
+                align: 'center',
+                color: 'white',
+                font: 'impact',
+                stroke: 'black',
+                vertical: 0,
+            }
+        ]
+    }
+}
+
+function loadKeysMapFromStaroge() {
+    gKeywordSearchCountMap = loadFromStroage('keysDB')
+    if (!gKeywordSearchCountMap) createKeywordMap()
+}
+
+function createKeywordMap() {
+
+    let keywordsArray = [];
+    gImgs.forEach(img => {
+        img.keywords.forEach(keyword => {
+            keywordsArray.push(keyword)
+        })
+    })
+    gKeywordSearchCountMap = keywordsArray.reduce((acc, keyword) => {
+        if (!acc[keyword]) acc[keyword] = 1;
+        else acc[keyword]++
+        return acc
+    }, {})
+    saveToStorage('keysDB', gKeywordSearchCountMap)
+}
+
+function getKeywordsMap() {
+    return gKeywordSearchCountMap
+}
+
+function updateKeywordSize(keywords) {
+    let keywordsSize = gKeywordSearchCountMap[keywords]
+    if (keywordsSize > 45) return
+    gKeywordSearchCountMap[keywords]++
+}
+
 function setFontFamily(font) {
-    console.log(font);
     gMeme.lines[gMeme.selectedLineIdx].font = font
 }
 
 function setStrokeColor(strokeColor) {
-    console.log(strokeColor);
+    gMeme.lines[gMeme.selectedLineIdx].stroke = strokeColor;
 }
 
-function getKeywordMap() {
-    return gKeywordSearchCountMap
+function setVerticalChange(diff) {
+    gMeme.lines[gMeme.selectedLineIdx].vertical += diff;
 }
 
 function DeleteLine() {
@@ -143,24 +188,29 @@ function DeleteLine() {
 function addLine() {
     // TODO: Delete later, just helping with unseen texts
     if (gMeme.lines.length === 3) return
-    console.log('hi');
     gMeme.lines.push(
         {
             txt: '',
             size: 40,
             align: 'center',
             color: 'white',
-            font: 'impact'
+            font: 'impact',
+            stroke: 'black',
+            vertical: 0
         }
-        )
-        gMeme.selectedLineIdx++
+    )
+    gMeme.selectedLineIdx++
+}
+
+function setAlignment(value) {
+    gMeme.lines[gMeme.selectedLineIdx].align = value
 }
 
 function swapLines() {
     if (gMeme.lines.length === 1) return
     gMeme.selectedLineIdx++;
     if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
-    return 
+    return
 }
 
 function setFontSize(value) {
@@ -183,6 +233,22 @@ function setText(txt) {
 
 function setImg(imgId) {
     gMeme.selectedImgId = imgId;
+}
+
+function saveMeme() {
+    gSavedMemes.push(gMeme)
+    saveToStorage('memesDB', gSavedMemes);
+}
+
+function getMemeFromSaved(idx) {
+    const memes = loadMemes()
+    const meme = memes[idx]
+    return meme
+}
+
+function loadMemes() {
+    const memes = loadFromStroage('memesDB')
+    return memes
 }
 
 function getMeme() {
