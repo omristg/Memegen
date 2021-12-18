@@ -2,6 +2,7 @@
 
 let gElCanvas;
 let gCtx;
+let gIsDownloading = false;
 
 
 function onInit() {
@@ -34,18 +35,30 @@ function renderMeme() {
 
 function onSwapLines(ev) {
     ev.preventDefault();
-    swapLines()
+    swapLines();
+    onUpdateTxtInput();
     renderMeme();
 }
 
 function onAddLine(ev) {
     ev.preventDefault();
     addLine();
+    onUpdateTxtInput();
     renderMeme();
+}
+
+function onUpdateTxtInput() {
+    const meme = getMeme();
+    let elInput = document.querySelector('.text-input')
+    elInput.value = meme.lines[meme.selectedLineIdx].txt;
 }
 
 function onDeleteLine(ev) {
     ev.preventDefault();
+    DeleteLine();
+    onUpdateTxtInput();
+    renderMeme();
+
 }
 
 function onChangeFontSize(ev, value) {
@@ -60,7 +73,7 @@ function onAlign(ev, value) {
 }
 
 function onTextChange(value) {
-    setText1(value)
+    setText(value)
     renderMeme()
 }
 
@@ -80,14 +93,12 @@ function onColorSelect(value) {
 }
 
 
-
-
 function renderText(meme) {
     // TODO: change the lineSpace system
     let lineSpace = 1
     const lines = meme.lines
     lines.forEach((line, idx) => {
-        gCtx.font = `${line.size}px Impact `;
+        gCtx.font = `${line.size}px ${line.font} `;
         gCtx.textAlign = line.align
         gCtx.fillStyle = line.color
         gCtx.strokeStyle = 'black';
@@ -112,6 +123,7 @@ function renderText(meme) {
 
 
 function drawFocusRect(line, textWidth, textPosX, textPosY) {
+    if (gIsDownloading) return
     const textHeight = line.size
     gCtx.beginPath();
     gCtx.rect(
@@ -133,6 +145,15 @@ function drawFocusRect(line, textWidth, textPosX, textPosY) {
 function showCoords(ev) {
 }
 
+function onSelectFontFamily(font) {
+    setFontFamily(font)
+    renderMeme();
+}
+
+function onSetStrokeColor(strokeColor) {
+    setStrokeColor(strokeColor)
+}
+
 function addListeners() {
     gElCanvas.addEventListener('mouseup', showCoords);
     window.addEventListener('resize', () => { renderMeme() })
@@ -145,21 +166,43 @@ function renderCanvas() {
     // Change later, this is only square imgs
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = elCanvasContainer.offsetWidth
-    gElCanvas.style.backgroundColor = 'white'
 }
 
+function onOpenShareModal(ev) {
+    ev.preventDefault();
+    document.querySelector('.editor').classList.toggle('share-modal-open')
+}
 
-// CHANGE THIS!!
+function onCloseShareModal() {
+    document.querySelector('.editor').classList.toggle('share-modal-open')
+}
+
+function onDownload(elLink) {
+    gIsDownloading = true;
+    renderMeme()
+    elLink.href = gElCanvas.toDataURL();
+    gIsDownloading = false;
+    renderMeme()
+}
+
+function onShareFacebook() {
+    console.log('sharefacebook');
+    gIsDownloading = true;
+    renderMeme()
+    uploadImg();
+    gIsDownloading = false;
+    renderMeme()
+}
+
 function onUpdatePlaceholder(el) {
-    console.log(el);
-    el.placeholder = '1235'
-
+    el.value = '';
 }
 
 
 // // GALLERY 
 
 function onReturnToGallery() {
+    onToggleNavModal(false)
     onToggleEditor(false)
     onToggleGallery(true)
 }
@@ -197,7 +240,7 @@ function renderGallery() {
     document.querySelector('.imgs-container').innerHTML = strHTMLs.join('');
 }
 
-function onToggleNavModal() {
-    document.body.classList.toggle('menu-open');
-   
+function onToggleNavModal(value) {
+    if (value) document.body.classList.add('menu-open');
+    else  document.body.classList.remove('menu-open');
 }

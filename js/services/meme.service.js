@@ -1,7 +1,12 @@
 'use strict'
 
 
-// TODO: add the Global keyMap
+// TODO: use this 
+let gKeywordSearchCountMap = {
+    'funny': 12,
+    'cat': 16,
+    'baby': 2
+}
 
 const gImgs = [
     {
@@ -97,11 +102,7 @@ const gImgs = [
     },
 ]
 
-let gKeywordSearchCountMap = {
-    'funny': 12,
-    'cat': 16,
-    'baby': 2
-}
+
 
 let gMeme = {
     selectedImgId: 1,
@@ -113,33 +114,53 @@ let gMeme = {
             size: 40,
             align: 'center',
             color: 'white',
+            font: 'impact'
         }
     ]
+}
+
+function setFontFamily(font) {
+    console.log(font);
+    gMeme.lines[gMeme.selectedLineIdx].font = font
+}
+
+function setStrokeColor(strokeColor) {
+    console.log(strokeColor);
 }
 
 function getKeywordMap() {
     return gKeywordSearchCountMap
 }
 
+function DeleteLine() {
+    const selecetdLineIdx = gMeme.lines[gMeme.selectedLineIdx]
+    gMeme.lines.splice(selecetdLineIdx, 1);
+    gMeme.selectedLineIdx--;
+    if (!gMeme.lines.length) addLine();
+    if (gMeme.selectedLineIdx < 0) gMeme.selectedLineIdx = 0;
+}
+
 function addLine() {
-// TODO: Delete later, just helping with unseen texts
+    // TODO: Delete later, just helping with unseen texts
     if (gMeme.lines.length === 3) return
-    
+    console.log('hi');
     gMeme.lines.push(
         {
             txt: '',
             size: 40,
             align: 'center',
-            color: 'white'
+            color: 'white',
+            font: 'impact'
         }
-    )
-    gMeme.selectedLineIdx++
+        )
+        gMeme.selectedLineIdx++
 }
 
 function swapLines() {
     if (gMeme.lines.length === 1) return
     gMeme.selectedLineIdx++;
     if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0;
+    return 
 }
 
 function setFontSize(value) {
@@ -155,9 +176,9 @@ function setTextColor(value) {
 
 }
 
-function setText1(value) {
+function setText(txt) {
     const currLine = gMeme.selectedLineIdx
-    gMeme.lines[currLine].txt = value
+    gMeme.lines[currLine].txt = txt
 }
 
 function setImg(imgId) {

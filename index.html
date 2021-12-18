@@ -11,8 +11,8 @@
 
 <body onload="onInit()">
 
-    <div class="darken-screen" onclick="onToggleNavModal()"></div>
-    
+    <div class="darken-screen" onclick="onToggleNavModal(false)"></div>
+
     <div class="header-backround">
         <header class="main-header main-layout flex align-center space-between">
             <img src="./img/logo.png" alt="" class="logo">
@@ -24,7 +24,7 @@
                     <span class="btn-exit" onclick="onToggleNavModal()">X</span>
                 </ul>
             </nav>
-            <button class="btn-hamburger" onclick="onToggleNavModal()">☰</button>
+            <button class="btn-hamburger" onclick="onToggleNavModal(true)">☰</button>
         </header>
     </div>
 
@@ -58,6 +58,8 @@
 
     <section class="editor">
 
+        <div class="editor-darken-screen" onclick="onCloseShareModal()"></div>
+
         <main class="flex main-layout">
 
             <div class="canvas-container">
@@ -65,10 +67,21 @@
             </div>
 
             <section class="edits-container">
+
+                <section class="share-modal item-center">
+                    <div onclick="onCloseShareModal()" class="btn-exit-share">X</div>
+                    <div class="btns-container">
+                        <button onclick="onShareFacebook()" class="share-facebook">Share</button>
+                        <button class="download"> <a href="#" onclick="onDownload(this)"
+                                download="myphoto">Download</a></button>
+
+                    </div>
+                </section>
+
                 <form action="" class="edit-optns">
 
                     <input type="text" oninput="onTextChange(value)" placeholder="Type something"
-                        onblur="onUpdatePlaceholder(this)" class="text-input">
+                        onblur="onUpdatePlaceholder(this)" onfocus="onUpdateTxtInput()" class="text-input">
 
                     <button class="btns-edit swap" onclick="onSwapLines(event)"> <img src="./icons/swap-lines.png"
                             alt=""></button>
@@ -86,23 +99,26 @@
                     <button class="btns-edit right" onclick="onAlign(event, 'right')"><img
                             src="./icons/align-to-right.png" alt=""></button>
 
-                    <input class="font-select" list="fonts">
-                    <datalist id="fonts">
+                    <select class="font-select" onchange="onSelectFontFamily(value)">
+                        <option value="Impact">Impact</option>
                         <option value="Arial">Arial</option>
-                        <option value="Tahoma">Tahoma</option>
                         <option value="Verdena">Verdena</option>
+                        <option value="Tahoma">Tahoma</option>
                         <option value=""></option>
                         <option value=""></option>
-                        <option value=""></option>
-                    </datalist>
-                    <button class="btns-edit stroke " onclick="onStroke(event)"><img src="./icons/text stroke.png"
-                            alt=""></button>
-                        <label  class="btns-edit color">
-                            <input onchange="onColorSelect(value)"
-                                class="input-color" type="color"><img src="./icons/paint-board-and-brush.png" alt=""></input>
-                        </label>
+                    </select>
 
-                    <button class="btn-share">Share</button>
+                    <label class="stroke btns-edit color-labels"><input type="color" onchange="onStrokeColor(value)"
+                            class="color-inputs"><img class="color-imgs item-center" src="./icons/text stroke.png"
+                            alt="">
+                    </label>
+
+                    <label class="color btns-edit color-labels">
+                        <input onchange="onColorSelect(value)" class="color-inputs" type="color"><img
+                            src="./icons/paint-board-and-brush.png" alt="" class="color-imgs item-center"></input>
+                    </label>
+
+                    <button onclick="onOpenShareModal(event)" class="btn-share">Share</button>
 
                 </form>
 
@@ -122,6 +138,7 @@
 
 
     <script src="./js/services/utils.service.js"></script>
+    <script src="./js/services/upload.service.js"></script>
     <script src="./js/services/meme.service.js"></script>
     <script src="./js/meme.controller.js"></script>
 </body>
