@@ -9,7 +9,7 @@ function onInit() {
 
 
 function onGoToSavedMemes() {
-    foramtMeme();
+    formatMeme();
     renderSavedMemes();
     onToggleNavModal(false)
     onToggleEditor(false);
@@ -18,7 +18,7 @@ function onGoToSavedMemes() {
 }
 
 function onGoToGallery() {
-    foramtMeme();
+    formatMeme();
     onToggleNavModal(false)
     onToggleEditor(false)
     onToggleSaved(false);
@@ -47,5 +47,20 @@ function onToggleNavModal(value) {
 
 function addListeners() {
     window.addEventListener('resize', () => { renderMeme() })
+    addMouseListeners();
+    addTouchListeners();
+}
+
+
+function addMouseListeners() {
+    gElCanvas.addEventListener('mousedown', onDown);
+    gElCanvas.addEventListener('mouseup', onUp);
+    gElCanvas.addEventListener('mousemove', onMove);
+}
+
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchstart', onDown);
+    gElCanvas.addEventListener('touchend', onUp);
+    gElCanvas.addEventListener('touchmove', onMove);
 }
 

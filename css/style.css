@@ -55,7 +55,8 @@ p, h1, h2, h3, h4, h5, h6 {
 /* SCREENS */
 
 .darken-screen,
-.editor-darken-screen {
+.editor-darken-screen,
+.memes-darken-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -79,6 +80,11 @@ body.menu-open .darken-screen {
     opacity: 1;
 }
 
+.saved-memes.menu-open .memes-darken-screen {
+    pointer-events: auto;
+    opacity: 1;
+}
+
 
 /* SAVED */
 
@@ -90,15 +96,17 @@ body.menu-open .darken-screen {
 }
 
 .saved-memes .memes-container {
+    min-height: calc(100vh - 40px - 450px);
     margin-top: 20px;
     margin-bottom: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px
+    grid-template-columns: repeat(auto-fit, minmax(250px, 450px));
+    gap: 20px;
+    place-content: center;
 }
 
 .memes-container h2 {
-    min-height: 50vh;
+    height: calc(100vh - 82.5px - 200px - 40px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,8 +117,9 @@ body.menu-open .darken-screen {
     cursor: pointer;
 }
 
+
 .saved-memes .memes-container>*:not(h2):hover {
-    box-shadow: -8px 0px 16px black;
+    box-shadow:1px 2px 14px 0px #040a2c;
     transform: scale(1.05);
 }
 
@@ -120,6 +129,8 @@ body.menu-open .darken-screen {
 
 /* MODALS */
 
+
+.memes-modal,
 .share-modal {
     position: fixed;
     z-index: 10;
@@ -132,11 +143,13 @@ body.menu-open .darken-screen {
     pointer-events: none;
 }
 
+.saved-memes.menu-open .memes-modal,
 .editor.share-modal-open .share-modal {
     pointer-events: auto;
     opacity: 1;
 }
 
+.memes-modal .btn-exit-saved,
 .share-modal .btn-exit-share {
     position: absolute;
     z-index: 10;
@@ -149,10 +162,12 @@ body.menu-open .darken-screen {
     transition: color 0.3s;
 }
 
+.memes-modal .btn-exit-saved:hover,
 .share-modal .btn-exit-share:hover {
     color: #040a2c;
 }
 
+.memes-modal .btns-container,
 .share-modal .btns-container {
     position: relative;
     top: 50%;
@@ -161,6 +176,7 @@ body.menu-open .darken-screen {
     flex-direction: column;
 }
 
+.memes-modal button,
 .share-modal button {
     border: none;
     background-color: #ff7f00;
@@ -176,6 +192,7 @@ body.menu-open .darken-screen {
     transition: background-color 0.3s;
 }
 
+.memes-modal button:hover,
 .share-modal button:hover {
     background-color: #040a2c;
 }
@@ -188,6 +205,15 @@ body.menu-open .darken-screen {
 
 .main-header {
     height: 4.125em;
+}
+
+.main-header>img {
+    cursor: pointer;
+    transition:  transform .25s;
+}
+
+.main-header>img:hover {
+    transform: scale(1.1);
 }
 
 
@@ -261,18 +287,19 @@ body.menu-open .darken-screen {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 }
 
-.imgs-container>*:hover {
-    cursor: pointer;
-    box-shadow: 4px 5px 12px 5px #040a2c;
-    transform: scale(1.02);
-    transition: transform 0.3s, box-shadow 0.3s;
+.imgs-container>* {
+    transition: all 0.3s;
 }
 
+.imgs-container>*:hover {
+    cursor: pointer;
+    box-shadow:1px 2px 14px 0px #040a2c;
+    transform: scale(1.02);
+}
 
 .imgs-container img {
     width: 100%;
 }
-
 
 
 
@@ -282,7 +309,6 @@ body.menu-open .darken-screen {
     display: none;
     background-color: #e3e3e3;
 }
-
 
 
 .editor main {
@@ -296,6 +322,7 @@ body.menu-open .darken-screen {
 
 .canvas-container {
     width: 100%;
+    height: 100%;
     margin-bottom: 10px;
 }
 
@@ -441,17 +468,20 @@ body.menu-open .darken-screen {
     width: 80%;
 }
 
-.color-inputs {
-    visibility: hidden;
-}
-
 .color-labels {
     position: relative;
 }
 
-.color-imgs {
-    position: absolute;
+.color-inputs {
+    visibility: hidden;
 }
+
+.btns-edit .color-imgs {
+    position: absolute;
+    width: 65%;
+}
+
+
 
 .editor .popup {
     position: fixed;
@@ -463,6 +493,7 @@ body.menu-open .darken-screen {
     z-index: 15;
     opacity: 0;
     transition: opacity 0.3s;
+    pointer-events: none;
 }
 
 .editor .popup.shown {

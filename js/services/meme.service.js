@@ -3,6 +3,10 @@
 
 let gKeywordSearchCountMap = null
 let gSavedMemes = [];
+let gNextLineSpace = 2.2;
+
+
+
 
 const gImgs = [
     {
@@ -105,17 +109,19 @@ let gMeme = {
     lines: [
         {
             txt: 'Type something',
-            size: 40,
+            size: 30,
             align: 'center',
             color: 'white',
             font: 'impact',
             stroke: 'black',
-            vertical: 0,
+            isDrag: false,
+            pos:{ x: 10, y: 10}
         }
     ]
 }
 
-function foramtMeme() {
+
+function formatMeme() {
     gMeme = {
         selectedImgId: 1,
         selectedLineIdx: 0,
@@ -123,16 +129,107 @@ function foramtMeme() {
         lines: [
             {
                 txt: 'Type something',
-                size: 40,
+                size: 30,
                 align: 'center',
                 color: 'white',
                 font: 'impact',
                 stroke: 'black',
-                vertical: 0,
+                isDrag: false,
+                pos:{ x: 10, y: 10}
             }
         ]
     }
 }
+
+function addLine() {
+    if (gMeme.lines.length === 4) return onReachedMaxLines()
+
+    gMeme.lines.push(
+        {
+            txt: '',
+            size: 30,
+            align: 'center',
+            color: 'white',
+            font: 'impact',
+            stroke: 'black',
+            isDrag: false,
+            pos: getNewLinePos()
+        }
+    )
+    gNextLineSpace += 1.2
+    gMeme.selectedLineIdx++
+}
+
+function setReRenderedMeme(meme) {
+    console.log(meme);
+    gMeme = meme
+    console.log(gMeme);
+}
+
+function getSelectedLine() {
+    return gMeme.lines[gMeme.selectedLineIdx]
+}
+
+function setLineDrag(isDrag) {
+    const selectedLine = getSelectedLine()
+    selectedLine.isDrag = isDrag;
+}
+
+
+function setLinePos(textPosX, textPosY, textWidth, lineHeight) {
+    const selectedLine = getSelectedLine()
+    selectedLine.pos = { x: textPosX, y: textPosY, width: textWidth, height: lineHeight }
+}
+
+function getTextWidth() {
+    const selectedLine = getSelectedLine()
+    const textMetrics = gCtx.measureText(selectedLine.txt)
+    return textMetrics.width
+}
+
+
+
+function isLineClicked(evPos) {
+    const selectedLine = getSelectedLine()
+
+    const { x } = selectedLine.pos;
+    const { y } = selectedLine.pos;
+    const width = getTextWidth()
+    const height = selectedLine.size
+
+    if (evPos.x > x - (width / 2) && evPos.x < x + (width / 2) &&
+        evPos.y > y - (height / 2) && evPos.y < y + (height / 2)) return true
+}
+
+
+
+function setInitialLinePos() {
+    let line = gMeme.lines[0]
+    line.pos = { x: gElCanvas.width / 2, y: gElCanvas.height / 5 }
+}
+
+function moveLine(dx, dy) {
+    let selectedLine = getSelectedLine()
+    selectedLine.pos.x += dx;
+    selectedLine.pos.y += dy;
+}
+
+
+function getLinePos(idx) {
+    const selectedLine = gMeme.lines[idx]
+    return selectedLine.pos
+}
+
+function getNewLinePos() {
+    const pos = {
+        x: gElCanvas.width / 2,
+        y: gElCanvas.height / 5.5 * gNextLineSpace
+    }
+    return pos
+}
+
+
+
 
 function loadKeysMapFromStaroge() {
     gKeywordSearchCountMap = loadFromStroage('keysDB')
@@ -161,7 +258,7 @@ function getKeywordsMap() {
 
 function updateKeywordSize(keywords) {
     let keywordsSize = gKeywordSearchCountMap[keywords]
-    if (keywordsSize > 45) return
+    if (keywordsSize > 29) return
     gKeywordSearchCountMap[keywords]++
 }
 
@@ -174,36 +271,39 @@ function setStrokeColor(strokeColor) {
 }
 
 function setVerticalChange(diff) {
-    gMeme.lines[gMeme.selectedLineIdx].vertical += diff;
+    let selectedLine = getSelectedLine();
+    selectedLine.pos.y -= diff
 }
+
 
 function DeleteLine() {
-    const selecetdLineIdx = gMeme.lines[gMeme.selectedLineIdx]
+    const selecetdLineIdx = gMeme.selectedLineIdx
     gMeme.lines.splice(selecetdLineIdx, 1);
     gMeme.selectedLineIdx--;
-    if (!gMeme.lines.length) addLine();
+    if (!gMeme.lines.length) {
+        addLine();
+    }
     if (gMeme.selectedLineIdx < 0) gMeme.selectedLineIdx = 0;
+    gNextLineSpace -= 1.2;
 }
 
-function addLine() {
-    // TODO: Delete later, just helping with unseen texts
-    if (gMeme.lines.length === 3) return
-    gMeme.lines.push(
-        {
-            txt: '',
-            size: 40,
-            align: 'center',
-            color: 'white',
-            font: 'impact',
-            stroke: 'black',
-            vertical: 0
-        }
-    )
-    gMeme.selectedLineIdx++
-}
 
 function setAlignment(value) {
-    gMeme.lines[gMeme.selectedLineIdx].align = value
+    const textWidth = getTextWidth()
+    let alignment
+    switch (value) {
+        case 'center':
+            alignment = gElCanvas.width / 2;
+            break
+        case 'right':
+            alignment = gElCanvas.width - textWidth / 2 - 10
+            break
+        case 'left':
+            alignment = 0 + textWidth / 2 + 10
+            break
+    }
+    let selectedLine = getSelectedLine();
+    selectedLine.pos.x = alignment
 }
 
 function swapLines() {
@@ -213,17 +313,15 @@ function swapLines() {
     return
 }
 
-function setFontSize(value) {
-    const currLine = gMeme.selectedLineIdx
-    console.log(currLine);
-    const prevSize = gMeme.lines[currLine].size
-    gMeme.lines[currLine].size = (value) ? prevSize + 5 : prevSize - 5;
+function setFontSize(diff) {
+    let selectedLine = getSelectedLine();
+    selectedLine.size += diff
+
 }
 
 function setTextColor(value) {
     const currLine = gMeme.selectedLineIdx
     gMeme.lines[currLine].color = `${value}`;
-
 }
 
 function setText(txt) {
@@ -238,6 +336,10 @@ function setImg(imgId) {
 function saveMeme() {
     gSavedMemes.push(gMeme)
     saveToStorage('memesDB', gSavedMemes);
+}
+
+function getSavedMemes() {
+    return gSavedMemes;
 }
 
 function getMemeFromSaved(idx) {

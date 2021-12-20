@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="shortcut icon" type="image/png" href="./icons/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" type="image/png" href="icons/favicon.ico">
     <title>Memegen</title>
 </head>
 
@@ -16,10 +16,10 @@
 
     <div class="header-backround">
         <header class="main-header main-layout flex align-center space-between">
-            <img src="./img/logo.png" alt="" class="logo">
+            <img onclick="onGoToGallery()" src="img/logo.png" alt="" class="logo">
             <nav class="main-nav">
                 <ul class="clean-list flex">
-                    <li class="hamburger-logo"><img src="./img/logo.png" alt=""></li>
+                    <li class="hamburger-logo"><img src="img/logo.png" alt=""></li>
                     <li><a href="#" onclick="onGoToGallery()">Gallery</a></li>
                     <li><a href="#" onclick="onGoToSavedMemes()">Saved</a></li>
                     <li><a href="#about" onclick="onGoToGallery()">About</a></li>
@@ -35,7 +35,7 @@
         <section class="search-and-keys main-layout flex align-center">
             <div class="search-bar">
                 <input list="search-keywords" placeholder="Enter search keyword" onchange="onFilterBy(value)">
-                <img class="search-icon" src="./icons/search-icon.png" alt="">
+                <img class="search-icon" src="icons/search-icon.png" alt="">
             </div>
             <datalist id="search-keywords"></datalist>
             <div class="keywords"></div>
@@ -65,6 +65,21 @@
 
 
     <section class="saved-memes flex main-layout">
+
+        <div class="memes-darken-screen" onclick="onCloseSavedMemesModal()"></div>
+
+        <section class="memes-modal item-center">
+            <div onclick="onCloseSavedMemesModal()" class="btn-exit-saved">X</div>
+            <div class="btns-container">
+                <button onclick="onShareFacebookSavedMeme()" class="share-facebook"><a hidden href=""></a> Share</button>
+                <button class="download"> <a href="#" onclick="onDownloadSavedMeme(this)"
+                        download="myphoto">Download</a></button>
+                <button class="delete-saved" onclick="onDeleteSavedMeme()">Delete</button>
+
+            </div>
+        </section>
+
+        
         <div class="memes-container"></div>
     </section>
 
@@ -82,7 +97,7 @@
                 <section class="share-modal item-center">
                     <div onclick="onCloseShareModal()" class="btn-exit-share">X</div>
                     <div class="btns-container">
-                        <button onclick="onShareFacebook()" class="share-facebook">Share</button>
+                        <button onclick="onShareFacebook()" class="share-facebook"><a hidden href=""></a> Share</button>
                         <button class="download"> <a href="#" onclick="onDownload(this)"
                                 download="myphoto">Download</a></button>
                         <button class="save" onclick="onSave()">Save</button>
@@ -104,9 +119,9 @@
                             src="./icons/down-arrow.png" alt=""></button>
                     <button class="btns-edit delete" onclick="onDeleteLine(event)"><img src="./icons/trash.png"
                             alt=""></button>
-                    <button onclick="onChangeFontSize(event, true)" class="btns-edit larger"> <img
+                    <button onclick="onChangeFontSize(event, 5)" class="btns-edit larger"> <img
                             src="./icons/increase-font-icon.png" alt=""> </button>
-                    <button onclick="onChangeFontSize(event, false)" class="btns-edit smaller"> <img
+                    <button onclick="onChangeFontSize(event, -5)" class="btns-edit smaller"> <img
                             src="./icons/decrease-font-icon.png" alt=""> </button>
                     <button class="btns-edit left" onclick="onAlign(event, 'left')"><img src="./icons/align-to-left.png"
                             alt=""></button>
@@ -137,7 +152,7 @@
                     <button onclick="onOpenShareModal(event)" class="btn-share">Share</button>
 
                 </form>
-                <div class="popup">dsadsaasd</div>
+                <div class="popup"></div>
             </section>
         </main>
     </section>
@@ -151,15 +166,15 @@
     </footer>
 
 
-    <script src="./js/services/utils.service.js"></script>
-    <script src="./js/services/storage.service.js"></script>
-    <script src="./js/services/upload.service.js"></script>
-    <script src="./js/services/saved.service.js"></script>
-    <script src="./js/services/meme.service.js"></script>
-    <script src="./js/services/saved.controller.js"></script>
-    <script src="./js/gallery.controller.js"></script>
-    <script src="./js/editor.controller.js"></script>
-    <script src="./js/main-controller.js"></script>
+    <script src="js/services/utils.service.js"></script>
+    <script src="js/services/storage.service.js"></script>
+    <script src="js/services/upload.service.js"></script>
+    <script src="js/services/saved.service.js"></script>
+    <script src="js/services/meme.service.js"></script>
+    <script src="js/controllers/saved.controller.js"></script>
+    <script src="js/controllers/gallery.controller.js"></script>
+    <script src="js/controllers/editor.controller.js"></script>
+    <script src="js/main-controller.js"></script>
 </body>
 
 </html>
